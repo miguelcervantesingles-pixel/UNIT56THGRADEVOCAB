@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Awesome Experiences 6th Grade</title>
+<link href="https://fonts.googleapis.com/css2?family=Righteous&family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sky:#00C9FF;--jungle:#2ECC71;--sunset:#FF6B35;--gold:#FFD700;
+  --night:#1a0533;--deep:#0d1b2a;--coral:#FF4E6A;--teal:#1ABC9C;
+  --purple:#9B59B6;--dark:#1C1C2E;--card:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Quicksand',sans-serif;background:var(--deep);min-height:100vh;overflow-x:hidden;}
+
+/* ANIMATED BG */
+#emoji-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
+.emoji-float{position:absolute;animation:floatUp linear infinite;opacity:0.3;user-select:none;}
+@keyframes floatUp{0%{transform:translateY(110vh) rotate(0deg);opacity:0;}10%{opacity:0.3;}90%{opacity:0.3;}100%{transform:translateY(-10vh) rotate(360deg);opacity:0;}}
+
+.screen{display:none;position:relative;z-index:1;min-height:100vh;padding:16px 14px 50px;}
+.screen.active{display:block;}
+
+/* HEADER */
+.game-header{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#0f3460,#16213e);border-radius:24px;padding:14px 12px;border:3px solid rgba(0,201,255,0.4);box-shadow:0 8px 32px rgba(0,0,0,0.6);}
+.game-title .line1{font-family:'Righteous',cursive;font-size:clamp(18px,5vw,30px);background:linear-gradient(90deg,#FFD700,#FF6B35,#FF4E6A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:none;}
+.game-title .line2{font-family:'Righteous',cursive;font-size:clamp(12px,3vw,18px);color:var(--sky);margin-top:3px;}
+.game-title .line3{font-family:'Quicksand',sans-serif;font-size:clamp(11px,2.5vw,14px);color:rgba(255,255,255,0.7);margin-top:2px;font-weight:700;}
+
+.card{background:rgba(255,255,255,0.97);border-radius:20px;padding:20px 16px;margin-bottom:16px;box-shadow:0 8px 32px rgba(0,0,0,0.35);}
+input[type="text"],select{width:100%;padding:13px 16px;border-radius:14px;border:3px solid #DDD;font-size:16px;font-family:'Quicksand',sans-serif;outline:none;transition:border-color 0.3s;background:#fff;}
+input[type="text"]:focus,select:focus{border-color:var(--sky);}
+label{font-size:15px;font-weight:700;color:var(--dark);display:block;margin-bottom:7px;}
+.form-group{margin-bottom:16px;}
+.btn{display:inline-block;padding:13px 28px;border-radius:50px;font-family:'Righteous',cursive;font-size:18px;cursor:pointer;border:none;transition:transform 0.15s,box-shadow 0.15s;box-shadow:0 6px 20px rgba(0,0,0,0.3);}
+.btn:active{transform:scale(0.95);}
+.btn-primary{background:linear-gradient(135deg,#FF4E6A,#C0392B);color:white;}
+.btn-green{background:linear-gradient(135deg,#2ECC71,#27AE60);color:white;}
+.btn-blue{background:linear-gradient(135deg,#00C9FF,#2980B9);color:white;}
+.btn-purple{background:linear-gradient(135deg,#9B59B6,#8E44AD);color:white;}
+.btn-full{display:block;width:100%;text-align:center;}
+h2{font-family:'Righteous',cursive;font-size:22px;color:var(--purple);margin-bottom:14px;}
+.info-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;margin-top:10px;}
+.info-chip{background:rgba(255,255,255,0.15);border-radius:20px;padding:5px 13px;font-size:13px;font-weight:700;color:white;}
+.score-badge{display:inline-block;padding:5px 14px;border-radius:20px;font-family:'Righteous',cursive;font-size:17px;background:linear-gradient(135deg,var(--gold),var(--sunset));color:white;box-shadow:0 4px 12px rgba(0,0,0,0.2);}
+.section-title{font-family:'Righteous',cursive;font-size:20px;text-align:center;color:var(--purple);margin-bottom:12px;}
+.progress-bar-wrap{background:#EEE;border-radius:20px;height:16px;overflow:hidden;margin:8px 0;}
+.progress-bar-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--jungle),var(--teal));transition:width 0.5s;}
+
+/* CROSSWORD */
+#crossword-container{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:12px;}
+#crossword-grid{display:inline-grid;gap:1px;background:#0f3460;padding:4px;border-radius:12px;min-width:max-content;}
+.cw-cell{width:28px;height:28px;background:white;border-radius:2px;position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+@media(max-width:480px){.cw-cell{width:22px;height:22px;}}
+.cw-cell.black{background:#0f3460;cursor:default;}
+.cw-cell.active-word{background:#FFF9C4;}
+.cw-cell.active-cell{background:#FFEB3B;}
+.cw-cell.correct{background:#C8E6C9!important;}
+.cw-cell.wrong{background:#FFCDD2!important;animation:shake 0.4s;}
+.cw-cell input{width:100%;height:100%;border:none;background:transparent;text-align:center;font-size:12px;font-weight:800;text-transform:uppercase;font-family:'Quicksand',sans-serif;outline:none;cursor:pointer;color:var(--dark);caret-color:transparent;padding:0;}
+@media(max-width:480px){.cw-cell input{font-size:9px;}}
+.cell-number{position:absolute;top:1px;left:2px;font-size:6px;font-weight:800;color:#7B2D8B;line-height:1;pointer-events:none;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+/* CLUES */
+.clues-section{display:flex;gap:12px;flex-wrap:wrap;}
+.clues-col{flex:1;min-width:130px;}
+.clues-col h4{font-family:'Righteous',cursive;color:var(--sunset);font-size:15px;margin-bottom:7px;}
+.clue-item{padding:7px 10px;margin-bottom:5px;border-radius:10px;background:#f0f8ff;cursor:pointer;font-size:12px;border:2px solid transparent;transition:all 0.2s;font-weight:600;}
+.clue-item:hover,.clue-item.selected{background:#d6eaff;border-color:var(--sky);}
+.clue-item.solved{background:#d4edda;color:#777;text-decoration:line-through;}
+.clue-num-badge{font-family:'Righteous',cursive;color:var(--sky);margin-right:3px;}
+
+/* ANSWER AREA */
+#answer-area{background:#f0f8ff;border-radius:14px;padding:12px;margin-bottom:12px;display:none;}
+#answer-area label{color:#2980B9;font-size:13px;margin-bottom:5px;}
+#answer-input-row{display:flex;gap:8px;}
+#answer-input-row input{flex:1;font-size:15px;text-transform:uppercase;font-weight:700;}
+#answer-input-row button{padding:9px 18px;border-radius:12px;border:none;background:var(--jungle);color:white;font-family:'Righteous',cursive;font-size:16px;cursor:pointer;white-space:nowrap;}
+
+/* CLUE POPUP */
+#clue-popup{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:white;border-radius:18px;padding:14px 18px;box-shadow:0 8px 40px rgba(0,0,0,0.5);z-index:1000;max-width:92vw;width:380px;display:none;border:3px solid var(--sky);}
+#clue-popup .clue-num{font-family:'Righteous',cursive;color:#2980B9;font-size:17px;}
+#clue-popup .clue-text{font-size:14px;font-weight:700;color:var(--dark);margin-top:5px;}
+#clue-popup .clue-dir{font-size:12px;color:#888;margin-top:3px;}
+#clue-popup button{margin-top:8px;padding:5px 14px;border-radius:20px;border:none;background:var(--sky);color:white;font-family:'Quicksand',sans-serif;font-weight:700;cursor:pointer;font-size:13px;}
+
+/* ============ MATCH ACTIVITY ============ */
+.match-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:12px;
+  padding:4px;
+}
+.match-card{
+  background:#fff;
+  border-radius:16px;
+  border:3px solid #e0e7ff;
+  padding:12px 8px 10px;
+  cursor:pointer;
+  transition:all 0.2s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  min-height:120px;
+  justify-content:center;
+  position:relative;
+}
+.match-card:active{transform:scale(0.96);}
+.match-card.selected{border-color:var(--purple)!important;background:#F3E8FF!important;transform:scale(1.04);box-shadow:0 6px 20px rgba(155,89,182,0.35);}
+.match-card.matched{border-color:var(--jungle)!important;background:#D5F5E3!important;opacity:0.85;cursor:default;}
+.match-card.wrong-match{animation:shake 0.4s;border-color:#E74C3C!important;background:#FADBD8!important;}
+.match-card-emoji{font-size:38px;line-height:1;}
+.match-card-hint{font-size:11px;font-weight:800;color:#7B2D8B;letter-spacing:1px;font-family:'Righteous',cursive;}
+.match-card-name{
+  font-size:10px;font-weight:700;color:#555;
+  text-align:center;line-height:1.3;
+  background:#fffbe6;border-radius:6px;padding:2px 6px;
+  border:1px dashed #f0c040;
+  display:none;
+}
+.match-card.show-name .match-card-name{display:block;}
+.match-card.matched .match-card-name{display:none!important;}
+
+/* LEADERBOARD */
+.lb-tabs{display:flex;gap:10px;margin-bottom:14px;}
+.lb-tab{flex:1;padding:9px;border-radius:14px;text-align:center;font-family:'Righteous',cursive;font-size:16px;cursor:pointer;border:3px solid transparent;transition:all 0.2s;}
+.lb-tab.tab-a{background:#EBF5FB;color:#2980B9;border-color:#2980B9;}
+.lb-tab.tab-b{background:#FEF9E7;color:var(--sunset);border-color:var(--sunset);}
+.lb-tab.active{transform:scale(1.05);box-shadow:0 4px 16px rgba(0,0,0,0.2);}
+.lb-entry{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;margin-bottom:7px;background:#f0f8ff;border:2px solid #C6E2FF;transition:all 0.3s;}
+.lb-entry.current-user{background:#FFE8F5;border-color:var(--coral);}
+.lb-rank{font-family:'Righteous',cursive;font-size:20px;min-width:34px;text-align:center;}
+.lb-name{flex:1;font-weight:700;font-size:14px;}
+.lb-score{font-family:'Righteous',cursive;font-size:19px;color:var(--purple);}
+
+/* FINAL */
+.final-score-circle{width:130px;height:130px;border-radius:50%;background:linear-gradient(135deg,#0f3460,#16213e);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 8px 32px rgba(0,0,0,0.4);border:5px solid #FFD700;}
+.final-score-num{font-family:'Righteous',cursive;font-size:48px;color:#FFD700;line-height:1;}
+.final-score-den{font-size:16px;color:rgba(255,255,255,0.8);font-weight:700;}
+.stars-row{font-size:32px;text-align:center;margin:10px 0;letter-spacing:3px;}
+
+/* NOTIFICATION */
+#notification{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-120px);background:white;border-radius:18px;padding:12px 22px;box-shadow:0 8px 32px rgba(0,0,0,0.4);z-index:9000;font-family:'Righteous',cursive;font-size:17px;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);border:3px solid var(--jungle);max-width:90vw;text-align:center;}
+#notification.show{transform:translateX(-50%) translateY(0);}
+#notification.error{border-color:#E74C3C;}
+
+/* VIRTUAL KEYBOARD */
+#virtual-kb{display:none;position:fixed;bottom:0;left:0;right:0;background:#0f3460;padding:8px 6px;z-index:800;border-top:3px solid var(--sky);}
+.kb-row{display:flex;justify-content:center;gap:4px;margin-bottom:4px;}
+.kb-key{width:30px;height:38px;border-radius:7px;background:white;border:none;font-family:'Righteous',cursive;font-size:15px;cursor:pointer;color:var(--dark);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 6px rgba(0,0,0,0.3);transition:transform 0.1s;}
+@media(max-width:360px){.kb-key{width:24px;height:34px;font-size:12px;}}
+.kb-key:active{transform:scale(0.88);}
+.kb-key.special{width:46px;background:var(--sky);color:white;font-size:11px;}
+.kb-key.space-key{width:90px;background:#e8f4ff;font-size:11px;}
+
+@keyframes popIn{0%{transform:scale(0);opacity:0}80%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+@keyframes confetti-fall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.pop-in{animation:popIn 0.4s ease;}
+.confetti-piece{position:fixed;width:11px;height:11px;top:-10px;animation:confetti-fall 2.5s ease-in forwards;z-index:9999;border-radius:2px;pointer-events:none;}
+</style>
+</head>
+<body>
+<div id="emoji-bg"></div>
+
+<div id="screen-login" class="screen active">
+  <div class="game-header">
+    <div class="game-title">
+      <div class="line1">🌍 AWESOME EXPERIENCES 🌍</div>
+      <div class="line2">6th Grade Vocabulary</div>
+      <div class="line3">✏️ Teacher: Lizbeth ✏️</div>
+    </div>
+  </div>
+  <div class="card">
+    <h2 style="text-align:center;">👋 Welcome, Explorer!</h2>
+    <p style="text-align:center;color:#666;margin-bottom:18px;font-size:14px;">Enter your info to start the adventure!</p>
+    <div class="form-group">
+      <label>📝 Your Full Name:</label>
+      <input type="text" id="player-name" placeholder="Write your name here..." autocomplete="off"/>
+    </div>
+    <div class="form-group">
+      <label>👥 Select Your Group:</label>
+      <select id="player-group">
+        <option value="">-- Choose Group --</option>
+        <option value="A">Group A 🔵</option>
+        <option value="B">Group B 🟠</option>
+      </select>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="startGame()">🚀 Let's Explore!</button>
+  </div>
+</div>
+
+<div id="screen-crossword" class="screen">
+  <div class="game-header">
+    <div class="game-title">
+      <div class="line1">🌍 AWESOME EXPERIENCES 🌍</div>
+      <div class="line2">6th Grade Vocabulary</div>
+      <div class="line3">✏️ Teacher: Lizbeth ✏️</div>
+    </div>
+    <div class="info-row">
+      <span class="info-chip" id="player-display">Player</span>
+      <span class="score-badge" id="cw-score-display">⭐ 0/5</span>
+      <span class="info-chip" id="cw-progress-display">0/17</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-title">📖 Activity 1: Crossword Puzzle</div>
+    <p style="font-size:12px;color:#666;text-align:center;margin-bottom:10px;">Tap a clue or a cell → read the Spanish hint → type the English answer!</p>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="cw-progress-bar" style="width:0%"></div></div>
+    <div style="text-align:center;margin-top:10px;">
+      <div id="crossword-container"><div id="crossword-grid"></div></div>
+    </div>
+  </div>
+  <div id="answer-area" class="card">
+    <label id="clue-selected-text">Select a word...</label>
+    <div id="answer-input-row">
+      <input type="text" id="answer-input" placeholder="Type answer..." autocomplete="off" autocorrect="off" spellcheck="false" maxlength="30"/>
+      <button onclick="submitAnswer()">✅ OK</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="clues-section">
+      <div class="clues-col"><h4>➡️ Across</h4><div id="clues-across"></div></div>
+      <div class="clues-col"><h4>⬇️ Down</h4><div id="clues-down"></div></div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-bottom:16px;">
+    <button class="btn btn-green btn-full" id="btn-finish-cw" onclick="finishCrossword()" style="display:none;">✨ Go to Activity 2 ✨</button>
+  </div>
+</div>
+
+<div id="screen-match" class="screen">
+  <div class="game-header">
+    <div class="game-title">
+      <div class="line1">🌍 AWESOME EXPERIENCES 🌍</div>
+      <div class="line2">6th Grade Vocabulary</div>
+      <div class="line3">✏️ Teacher: Lizbeth ✏️</div>
+    </div>
+    <div class="info-row">
+      <span class="info-chip" id="player-display2">Player</span>
+      <span class="score-badge" id="match-score-display">⭐ 0/5</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-title" style="color:var(--sunset);">🎯 Activity 2: Find the Experience!</div>
+    <p style="font-size:12px;color:#666;text-align:center;margin-bottom:4px;">Tap two cards that match the same experience! 🌏</p>
+    <p style="font-size:11px;color:#999;text-align:center;margin-bottom:10px;">Hint: each card shows the first and last letter. Some tricky ones show the name too!</p>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="match-progress-bar" style="width:0%;background:linear-gradient(90deg,var(--coral),var(--sunset))"></div></div>
+    <p style="text-align:center;font-size:12px;color:#999;margin:5px 0 12px;"><span id="match-progress-txt">0 / 17 matched</span></p>
+    <div id="match-grid" class="match-grid"></div>
+  </div>
+  <div style="text-align:center;">
+    <button class="btn btn-purple btn-full" id="btn-finish-match" onclick="finishMatch()" style="display:none;">🏆 See My Final Score! 🏆</button>
+  </div>
+</div>
+
+<div id="screen-results" class="screen">
+  <div class="game-header">
+    <div class="game-title">
+      <div class="line1">🌍 AWESOME EXPERIENCES 🌍</div>
+      <div class="line2">6th Grade Vocabulary</div>
+      <div class="line3">✏️ Teacher: Lizbeth ✏️</div>
+    </div>
+  </div>
+  <div class="card" style="text-align:center;">
+    <div class="section-title">🏆 Final Results! 🏆</div>
+    <div id="final-player-name" style="font-family:'Righteous',cursive;font-size:20px;color:var(--dark);margin-bottom:8px;"></div>
+    <div class="final-score-circle pop-in">
+      <div class="final-score-num" id="final-score-num">10</div>
+      <div class="final-score-den">out of 10</div>
+    </div>
+    <div class="stars-row" id="stars-row">⭐⭐⭐⭐⭐</div>
+    <div id="result-message" style="font-size:16px;font-weight:700;color:var(--purple);margin-bottom:14px;"></div>
+    <div style="background:#f0f8ff;border-radius:14px;padding:12px;margin-bottom:14px;text-align:left;">
+      <div style="font-weight:700;color:var(--dark);margin-bottom:7px;">📊 Score Breakdown:</div>
+      <div id="score-breakdown" style="font-size:13px;color:#555;line-height:2;"></div>
+    </div>
+    <button class="btn btn-blue btn-full" onclick="showLeaderboard()">👀 See Leaderboards!</button>
+  </div>
+</div>
+
+<div id="screen-leaderboard" class="screen">
+  <div class="game-header">
+    <div class="game-title">
+      <div class="line1">🌍 AWESOME EXPERIENCES 🌍</div>
+      <div class="line2">6th Grade Vocabulary</div>
+      <div class="line3">✏️ Teacher: Lizbeth ✏️</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-title" style="color:var(--gold);">🏅 Leaderboards 🏅</div>
+    <div class="lb-tabs">
+      <div class="lb-tab tab-a active" id="tab-a" onclick="switchLbTab('A')">🔵 Group A</div>
+      <div class="lb-tab tab-b" id="tab-b" onclick="switchLbTab('B')">🟠 Group B</div>
+    </div>
+    <div id="lb-content-A"><div style="text-align:center;color:#999;padding:20px;">Loading...</div></div>
+    <div id="lb-content-B" style="display:none;"><div style="text-align:center;color:#999;padding:20px;">Loading...</div></div>
+    <div style="margin-top:14px;"><button class="btn btn-primary btn-full" onclick="playAgain()">🔄 Play Again</button></div>
+  </div>
+</div>
+
+<div id="clue-popup">
+  <div class="clue-num" id="popup-clue-num"></div>
+  <div class="clue-text" id="popup-clue-text"></div>
+  <div class="clue-dir" id="popup-clue-dir"></div>
+  <button onclick="closeCluePopup()">Got it! 👍</button>
+</div>
+
+<div id="notification">✅ Correct!</div>
+
+<div id="virtual-kb">
+  <div class="kb-row" id="kb-row1"></div>
+  <div class="kb-row" id="kb-row2"></div>
+  <div class="kb-row" id="kb-row3"></div>
+</div>
+
+<script>
+// ====== FIREBASE ======
+const FB_URL = "https://unit-5-history-museum-default-rtdb.firebaseio.com";
+
+async function fbPush(path, data){
+  try{
+    const r = await fetch(FB_URL+path+".json",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
+    return r.ok;
+  }catch(e){console.warn("FB write:",e);return false;}
+}
+async function fbGet(path){
+  try{
+    const r = await fetch(FB_URL+path+".json");
+    if(!r.ok) return null;
+    return await r.json();
+  }catch(e){console.warn("FB read:",e);return null;}
+}
+
+// ====== EMOJI BG ======
+const EMOJIS=['🌴','🦁','🌋','🐫','🦅','🦘','🐆','🌍','🗺️','🏔️','🎈','🦥','🦬','🦚','🌵','⭐','✨','🎉','🏆','📚','✏️','🎨','🌈','💡','🎯'];
+const bg=document.getElementById('emoji-bg');
+for(let i=0;i<28;i++){
+  const el=document.createElement('div');
+  el.className='emoji-float';
+  el.textContent=EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+  el.style.cssText=`left:${Math.random()*100}%;animation-duration:${7+Math.random()*10}s;animation-delay:${-Math.random()*14}s;font-size:${16+Math.random()*18}px`;
+  bg.appendChild(el);
+}
+
+// ====== SOUNDS ======
+const AC=new(window.AudioContext||window.webkitAudioContext)();
+function playSound(type){
+  try{
+    if(type==='correct'){
+      const notes=[523,659,784];
+      notes.forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);o.frequency.value=f;g.gain.setValueAtTime(0.25,AC.currentTime+i*0.1);g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+i*0.1+0.25);o.start(AC.currentTime+i*0.1);o.stop(AC.currentTime+i*0.1+0.25);});
+    }else if(type==='wrong'){
+      const o=AC.createOscillator(),g=AC.createGain();o.type='sawtooth';o.connect(g);g.connect(AC.destination);o.frequency.setValueAtTime(220,AC.currentTime);o.frequency.setValueAtTime(160,AC.currentTime+0.15);g.gain.setValueAtTime(0.18,AC.currentTime);g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+0.3);o.start(AC.currentTime);o.stop(AC.currentTime+0.3);
+    }else if(type==='win'){
+      [523,659,784,1047].forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);o.frequency.value=f;g.gain.setValueAtTime(0.18,AC.currentTime+i*0.11);g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+i*0.11+0.28);o.start(AC.currentTime+i*0.11);o.stop(AC.currentTime+i*0.11+0.28);});
+    }else if(type==='click'){
+      const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);o.frequency.value=440;g.gain.setValueAtTime(0.08,AC.currentTime);g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+0.07);o.start(AC.currentTime);o.stop(AC.currentTime+0.07);
+    }
+  }catch(e){}
+}
+
+// ====== VOCAB DATA (crossword) ======
+// Massive continuous interconnecting grid precisely mapped out for the new 17 concepts
+const WORDS = [
+  {id:1, word:'EXPLOREARAINFOREST', dir:'across', row:5, col:0, num:1, clue_es:'Explorar una selva tropical muy densa y exótica 🌴'},
+  {id:2, word:'SNOWLEOPARDS', dir:'down', row:0, col:0, num:2, clue_es:'Felinos con manchas que viven en la nieve 🐆❄️'},
+  {id:3, word:'SLEEPINADESERT', dir:'across', row:11, col:0, num:3, clue_es:'Dormir en un lugar muy seco y con mucha arena 🏜️'},
+  {id:4, word:'SEETHEPYRAMIDS', dir:'down', row:8, col:13, num:4, clue_es:'Ver los monumentos egipcios enormes en forma triangular 🔺'},
+  {id:5, word:'FLYINAHOTAIRBALLOON', dir:'across', row:21, col:10, num:5, clue_es:'Volar en un globo gigante de aire caliente 🎈'},
+  {id:6, word:'CLIMBAVOLCANO', dir:'down', row:10, col:28, num:6, clue_es:'Subir una montaña que puede lanzar lava 🌋'},
+  {id:7, word:'POLARBEARS', dir:'across', row:22, col:27, num:7, clue_es:'Osos blancos que viven en el hielo 🐻‍❄️'},
+  {id:8, word:'MEETAFAMOUSPERSON', dir:'down', row:12, col:36, num:8, clue_es:'Conocer a un individuo muy famoso o estrella 🌟'},
+  {id:9, word:'HOLDASNAKE', dir:'across', row:28, col:28, num:9, clue_es:'Sostener un reptil largo y sin patas en tus manos 🐍'},
+  {id:10, word:'OSTRICHES', dir:'down', row:27, col:33, num:10, clue_es:'Aves gigantes que no pueden volar pero corren rápido 🦚'},
+  {id:11, word:'GOONASAFARI', dir:'across', row:35, col:28, num:11, clue_es:'Ir a una excursión para observar animales salvajes en África 🦁'},
+  {id:12, word:'RIDEACAMEL', dir:'down', row:35, col:37, num:12, clue_es:'Montar un animal del desierto con jorobas 🐫'},
+  {id:13, word:'KANGAROOS', dir:'across', row:39, col:36, num:13, clue_es:'Animales australianos que saltan con sus crías en una bolsa 🦘'},
+  {id:14, word:'JAGUARS', dir:'down', row:37, col:39, num:14, clue_es:'Felinos americanos grandes y muy ágiles 🐆'},
+  {id:15, word:'SLOTHS', dir:'across', row:43, col:34, num:15, clue_es:'Animales muy lentos que viven colgados de los árboles 🦥'},
+  {id:16, word:'EAGLES', dir:'down', row:38, col:34, num:16, clue_es:'Aves rapaces de gran tamaño con vista aguda 🦅'},
+  {id:17, word:'MOOSE', dir:'across', row:38, col:30, num:17, clue_es:'Animal grande del norte parecido al alce con cuernos enormes 🦌'}
+];
+
+// Grid dimensions scaled to support the long phrases
+const GRID_ROWS=46, GRID_COLS=48;
+let gridData=[];
+for(let r=0;r<GRID_ROWS;r++){
+  gridData.push([]);
+  for(let c=0;c<GRID_COLS;c++){
+    gridData[r].push({letter:'',black:true,num:'',words:[],input:null});
+  }
+}
+
+let cellNums={};
+WORDS.forEach(word=>{
+  for(let i=0;i<word.word.length;i++){
+    let r=word.dir==='across'?word.row:word.row+i;
+    let c=word.dir==='across'?word.col+i:word.col;
+    if(r>=GRID_ROWS||c>=GRID_COLS) continue;
+    gridData[r][c].letter=word.word[i];
+    gridData[r][c].black=false;
+    gridData[r][c].words.push({id:word.id,dir:word.dir,pos:i});
+    if(i===0){
+      const key=r+','+c;
+      if(!cellNums[key]){cellNums[key]=word.num; gridData[r][c].num=word.num;}
+    }
+  }
+});
+
+let wordStates={};
+WORDS.forEach(w=>{wordStates[w.id]={solved:false,tries:0};});
+
+// ====== MATCH DATA ======
+const MATCH_ITEMS=[
+  {id:1,  word:'EXPLORE A RAINFOREST', emoji:'🌴',  hard:false},
+  {id:2,  word:'HOLD A SNAKE',         emoji:'🐍',  hard:false},
+  {id:3,  word:'KANGAROOS',            emoji:'🦘',  hard:false},
+  {id:4,  word:'SNOW LEOPARDS',        emoji:'🐆❄️', hard:true},
+  {id:5,  word:'FLY IN A HOT AIR BALLOON',emoji:'🎈',hard:true},
+  {id:6,  word:'MEET A FAMOUS PERSON', emoji:'🌟',  hard:true},
+  {id:7,  word:'POLAR BEARS',          emoji:'🐻‍❄️',  hard:true},
+  {id:8,  word:'SLEEP IN A DESERT',    emoji:'🏜️',  hard:true},
+  {id:9,  word:'OSTRICHES',            emoji:'🦚',  hard:true},
+  {id:10, word:'SLOTHS',               emoji:'🦥',  hard:false},
+  {id:11, word:'JAGUARS',              emoji:'🐆',  hard:false},
+  {id:12, word:'SEE THE PYRAMIDS',     emoji:'🔺',  hard:true},
+  {id:13, word:'RIDE A CAMEL',         emoji:'🐫',  hard:false},
+  {id:14, word:'CLIMB A VOLCANO',      emoji:'🌋',  hard:false},
+  {id:15, word:'MOOSE',                emoji:'🦌',  hard:true},
+  {id:16, word:'EAGLES',               emoji:'🦅',  hard:false},
+  {id:17, word:'GO ON A SAFARI',       emoji:'🦁',  hard:true},
+];
+
+function buildHint(word){
+  const letters=word.replace(/\s+/g,'');
+  if(letters.length<=2) return letters;
+  const blanks=Array(letters.length-2).fill('_').join(' ');
+  return `${letters[0]} ${blanks} ${letters[letters.length-1]}`;
+}
+
+// ====== GAME STATE ======
+let player={name:'',group:''};
+let cwScore=0,matchScore=0,cwPenalties=0,matchPenalties=0,cwSolved=0,matchSolved=0;
+let selectedClue=null;
+let matchSelected=null, matchPairs={}, matchAttempts={};
+
+// ====== UTILS ======
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+id).classList.add('active');window.scrollTo(0,0);}
+function showNotif(msg,type='ok'){const n=document.getElementById('notification');n.textContent=msg;n.className=type==='error'?'show error':'show';setTimeout(()=>n.className='',2200);}
+function spawnConfetti(){const cols=['#FF4E6A','#FFD700','#00C9FF','#2ECC71','#9B59B6','#FF6B35'];for(let i=0;i<40;i++){const el=document.createElement('div');el.className='confetti-piece';el.style.cssText=`left:${Math.random()*100}vw;background:${cols[Math.floor(Math.random()*cols.length)]};animation-delay:${Math.random()*0.5}s;animation-duration:${2+Math.random()*1.5}s;border-radius:${Math.random()>0.5?'50%':'2px'}`;document.body.appendChild(el);setTimeout(()=>el.remove(),3500);}}
+function closeCluePopup(){document.getElementById('clue-popup').style.display='none';}
+
+// ====== LOGIN ======
+function startGame(){
+  const name=document.getElementById('player-name').value.trim();
+  const group=document.getElementById('player-group').value;
+  if(!name){showNotif('Please enter your name! 📝','error');return;}
+  if(!group){showNotif('Please select your group! 👥','error');return;}
+  AC.resume(); player={name,group};
+  playSound('click');
+  document.getElementById('player-display').textContent=`👤 ${name} | Group ${group}`;
+  document.getElementById('player-display2').textContent=`👤 ${name} | Group ${group}`;
+  buildCrossword();
+  showScreen('crossword');
+}
+
+// ====== BUILD CROSSWORD ======
+function buildCrossword(){
+  const grid=document.getElementById('crossword-grid');
+  grid.style.gridTemplateColumns=`repeat(${GRID_COLS},1fr)`;
+  grid.innerHTML='';
+  for(let r=0;r<GRID_ROWS;r++){
+    for(let c=0;c<GRID_COLS;c++){
+      const cell=document.createElement('div');
+      const d=gridData[r][c];
+      if(d.black){
+        cell.className='cw-cell black';
+      } else {
+        cell.className='cw-cell';
+        if(d.num){const n=document.createElement('span');n.className='cell-number';n.textContent=d.num;cell.appendChild(n);}
+        const inp=document.createElement('input');
+        inp.type='text';inp.maxLength=1;
+        inp.setAttribute('data-row',r);inp.setAttribute('data-col',c);
+        inp.setAttribute('readonly','true');
+        inp.addEventListener('click',()=>{AC.resume();onCellClick(r,c);});
+        cell.appendChild(inp);
+        d.input=inp;
+      }
+      grid.appendChild(cell);
+    }
+  }
+  buildCluesList();
+  setupVirtualKeyboard();
+  updateCwScore();
+}
+
+function buildCluesList(){
+  const across=document.getElementById('clues-across');
+  const down=document.getElementById('clues-down');
+  across.innerHTML='';down.innerHTML='';
+  const seenNums={across:new Set(),down:new Set()};
+  WORDS.forEach(w=>{
+    if(seenNums[w.dir].has(w.num)) return;
+    seenNums[w.dir].add(w.num);
+    const el=document.createElement('div');
+    el.className='clue-item';el.id=`clue-item-${w.id}`;
+    el.innerHTML=`<span class="clue-num-badge">${w.num}.</span>${w.clue_es}`;
+    el.onclick=()=>selectClue(w.id);
+    (w.dir==='across'?across:down).appendChild(el);
+  });
+}
+
+function onCellClick(r,c){
+  const d=gridData[r][c];
+  if(!d.words.length) return;
+  let wordId=null;
+  if(selectedClue){const found=d.words.find(w=>w.id===selectedClue);wordId=found?selectedClue:d.words[0].id;}
+  else{wordId=d.words[0].id;}
+  selectClue(wordId,false);
+  showCluePopup(wordId);
+}
+
+function selectClue(wordId,scroll=true){
+  selectedClue=wordId;
+  for(let r=0;r<GRID_ROWS;r++) for(let c=0;c<GRID_COLS;c++){const d=gridData[r][c];if(!d.black&&d.input){d.input.parentElement.classList.remove('active-word','active-cell');}}
+  document.querySelectorAll('.clue-item').forEach(el=>el.classList.remove('selected'));
+  const word=WORDS.find(w=>w.id===wordId);
+  if(!word||wordStates[wordId].solved) return;
+  for(let i=0;i<word.word.length;i++){
+    let r=word.dir==='across'?word.row:word.row+i;
+    let c=word.dir==='across'?word.col+i:word.col;
+    if(r<GRID_ROWS&&c<GRID_COLS&&!gridData[r][c].black&&gridData[r][c].input)
+      gridData[r][c].input.parentElement.classList.add('active-word');
+  }
+  for(let i=0;i<word.word.length;i++){
+    let r=word.dir==='across'?word.row:word.row+i;
+    let c=word.dir==='across'?word.col+i:word.col;
+    if(r<GRID_ROWS&&c<GRID_COLS&&!gridData[r][c].black&&gridData[r][c].input&&gridData[r][c].input.value===''){
+      gridData[r][c].input.parentElement.classList.add('active-cell');break;
+    }
+  }
+  const clueEl=document.getElementById(`clue-item-${wordId}`);
+  if(clueEl){clueEl.classList.add('selected');if(scroll)clueEl.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  const ansArea=document.getElementById('answer-area');
+  ansArea.style.display='block';
+  document.getElementById('clue-selected-text').textContent=`${word.num}. (${word.dir}) — ${word.clue_es}`;
+  document.getElementById('answer-input').value='';
+  document.getElementById('answer-input').focus();
+  document.getElementById('virtual-kb').style.display='block';
+}
+
+function showCluePopup(wordId){
+  const word=WORDS.find(w=>w.id===wordId);if(!word) return;
+  const popup=document.getElementById('clue-popup');
+  document.getElementById('popup-clue-num').textContent=`${word.num}. ${word.dir.toUpperCase()}`;
+  document.getElementById('popup-clue-text').textContent=word.clue_es;
+  const len=word.word.length;
+  document.getElementById('popup-clue-dir').textContent=`Answer: ${len} letter${len>1?'s':''}`;
+  popup.style.display='block';
+  setTimeout(closeCluePopup,4500);
+}
+
+// ====== SUBMIT ANSWER ======
+function submitAnswer(){
+  if(!selectedClue) return;
+  const word=WORDS.find(w=>w.id===selectedClue);
+  if(!word||wordStates[word.id].solved) return;
+  const raw=document.getElementById('answer-input').value.trim().toUpperCase();
+  const answer=raw.replace(/\s+/g,'');
+  const correct=word.word.replace(/\s+/g,'');
+  if(!answer){showNotif('Type your answer! ✏️','error');return;}
+
+  wordStates[word.id].tries++;
+
+  if(answer===correct){
+    playSound('correct');
+    wordStates[word.id].solved=true;
+    cwSolved++;
+    for(let i=0;i<word.word.length;i++){
+      let r=word.dir==='across'?word.row:word.row+i;
+      let c=word.dir==='across'?word.col+i:word.col;
+      if(r<GRID_ROWS&&c<GRID_COLS&&!gridData[r][c].black&&gridData[r][c].input){
+        gridData[r][c].input.value=word.word[i];
+        gridData[r][c].input.parentElement.classList.add('correct');
+        gridData[r][c].input.parentElement.classList.remove('active-word','active-cell');
+      }
+    }
+    const clueEl=document.getElementById(`clue-item-${word.id}`);
+    if(clueEl) clueEl.classList.add('solved');
+    document.getElementById('answer-area').style.display='none';
+    document.getElementById('virtual-kb').style.display='none';
+    selectedClue=null;
+    const msg=wordStates[word.id].tries===1?'🎉 Perfect! First try!':'✅ Correct!';
+    showNotif(msg);
+    if(wordStates[word.id].tries>2) cwPenalties+=0.2;
+    updateCwScore();
+    if(cwSolved===WORDS.length){
+      spawnConfetti();playSound('win');
+      setTimeout(()=>{document.getElementById('btn-finish-cw').style.display='block';showNotif('🏆 Crossword Complete!! Amazing!');},500);
+    }
+  } else {
+    playSound('wrong');
+    showNotif('❌ Not quite! Try again!','error');
+    for(let i=0;i<word.word.length;i++){
+      let r=word.dir==='across'?word.row:word.row+i;
+      let c=word.dir==='across'?word.col+i:word.col;
+      if(r<GRID_ROWS&&c<GRID_COLS&&!gridData[r][c].black&&gridData[r][c].input){
+        const cell=gridData[r][c].input.parentElement;
+        cell.classList.add('wrong');
+        setTimeout(()=>cell.classList.remove('wrong'),500);
+      }
+    }
+    document.getElementById('answer-input').value='';
+  }
+}
+
+function updateCwScore(){
+  const base=(cwSolved/WORDS.length)*5;
+  cwScore=Math.max(0,base-cwPenalties);
+  document.getElementById('cw-score-display').textContent=`⭐ ${cwScore.toFixed(1)}/5`;
+  document.getElementById('cw-progress-display').textContent=`${cwSolved}/${WORDS.length}`;
+  document.getElementById('cw-progress-bar').style.width=`${(cwSolved/WORDS.length)*100}%`;
+}
+
+function finishCrossword(){playSound('click');buildMatchActivity();showScreen('match');}
+
+// ====== VIRTUAL KEYBOARD ======
+function setupVirtualKeyboard(){
+  const rows=[['Q','W','E','R','T','Y','U','I','O','P'],['A','S','D','F','G','H','J','K','L'],['⌫','Z','X','C','V','B','N','M','✅']];
+  rows.forEach((row,ri)=>{
+    const rowEl=document.getElementById(`kb-row${ri+1}`);
+    rowEl.innerHTML='';
+    row.forEach(k=>{
+      const btn=document.createElement('button');
+      btn.className='kb-key'+(k==='⌫'||k==='✅'?' special':'');
+      btn.textContent=k;
+      btn.onclick=()=>{
+        const inp=document.getElementById('answer-input');
+        if(k==='⌫'){inp.value=inp.value.slice(0,-1);}
+        else if(k==='✅'){submitAnswer();}
+        else{inp.value+=k;}
+        playSound('click');
+      };
+      rowEl.appendChild(btn);
+    });
+    if(ri===1){
+      const sp=document.createElement('button');
+      sp.className='kb-key space-key';sp.textContent='SPACE';
+      sp.onclick=()=>{document.getElementById('answer-input').value+=' ';playSound('click');};
+      rowEl.appendChild(sp);
+    }
+  });
+}
+
+// ====== MATCH ACTIVITY ======
+
+let matchWordSel=null, matchEmojiSel=null;
+
+function buildMatchActivity(){
+  const grid=document.getElementById('match-grid');
+  grid.innerHTML='';
+  matchPairs={};matchWordSel=null;matchEmojiSel=null;matchAttempts={};
+  matchSolved=0;matchPenalties=0;
+  document.getElementById('match-progress-txt').textContent=`0 / ${MATCH_ITEMS.length} matched`;
+  document.getElementById('match-progress-bar').style.width='0%';
+
+  const emojiCards=MATCH_ITEMS.map(item=>({type:'emoji',id:item.id,item}));
+  const wordCards=MATCH_ITEMS.map(item=>({type:'word',id:item.id,item}));
+  const all=[...emojiCards,...wordCards].sort(()=>Math.random()-0.5);
+
+  all.forEach(card=>{
+    const el=document.createElement('div');
+    el.className='match-card';
+    el.id=`mc-${card.type}-${card.id}`;
+    el.setAttribute('data-type',card.type);
+    el.setAttribute('data-id',card.id);
+
+    if(card.type==='emoji'){
+      const hint=buildHint(card.item.word);
+      el.innerHTML=`
+        <div class="match-card-emoji">${card.item.emoji}</div>
+        <div class="match-card-hint">${hint}</div>
+        ${card.item.hard?`<div class="match-card-name">${card.item.word}</div>`:''}
+      `;
+      if(card.item.hard) el.classList.add('show-name');
+      el.onclick=()=>onEmojiCardClick(card.id);
+    } else {
+      el.style.background='linear-gradient(135deg,#EBF5FB,#D6EAF8)';
+      el.style.borderColor='#AED6F1';
+      el.innerHTML=`<div style="font-size:13px;font-weight:800;text-align:center;color:#1a3a5c;line-height:1.4;">${card.item.word}</div>`;
+      el.onclick=()=>onWordCardClick(card.id);
+    }
+    grid.appendChild(el);
+  });
+}
+
+function onEmojiCardClick(id){
+  const el=document.getElementById(`mc-emoji-${id}`);
+  if(!el||matchPairs[`e${id}`]) return;
+  playSound('click');
+  if(matchEmojiSel!==null){
+    const prev=document.getElementById(`mc-emoji-${matchEmojiSel}`);
+    if(prev) prev.classList.remove('selected');
+  }
+  matchEmojiSel=id;
+  el.classList.add('selected');
+  if(matchWordSel!==null) checkMatchNew();
+}
+
+function onWordCardClick(id){
+  const el=document.getElementById(`mc-word-${id}`);
+  if(!el||matchPairs[`w${id}`]) return;
+  playSound('click');
+  if(matchWordSel!==null){
+    const prev=document.getElementById(`mc-word-${matchWordSel}`);
+    if(prev) prev.classList.remove('selected');
+  }
+  matchWordSel=id;
+  el.classList.add('selected');
+  if(matchEmojiSel!==null) checkMatchNew();
+}
+
+function checkMatchNew(){
+  const eId=matchEmojiSel, wId=matchWordSel;
+  if(eId===null||wId===null) return;
+  matchEmojiSel=null; matchWordSel=null;
+  if(!matchAttempts[eId]) matchAttempts[eId]=0;
+  matchAttempts[eId]++;
+
+  const eEl=document.getElementById(`mc-emoji-${eId}`);
+  const wEl=document.getElementById(`mc-word-${wId}`);
+
+  if(eId===wId){
+    playSound('correct');
+    matchPairs[`e${eId}`]=true; matchPairs[`w${wId}`]=true;
+    matchSolved++;
+    eEl.classList.remove('selected'); wEl.classList.remove('selected');
+    eEl.classList.add('matched'); wEl.classList.add('matched');
+    if(matchAttempts[eId]>2) matchPenalties+=0.1;
+    showNotif('🎉 Great match!');
+    updateMatchScore();
+    document.getElementById('match-progress-txt').textContent=`${matchSolved} / ${MATCH_ITEMS.length} matched`;
+    document.getElementById('match-progress-bar').style.width=`${(matchSolved/MATCH_ITEMS.length)*100}%`;
+    if(matchSolved===MATCH_ITEMS.length){
+      spawnConfetti();playSound('win');
+      setTimeout(()=>{document.getElementById('btn-finish-match').style.display='block';showNotif('🏆 All matched! Amazing!');},400);
+    }
+  } else {
+    playSound('wrong');
+    showNotif('❌ Not a match! Try again!','error');
+    eEl.classList.remove('selected'); wEl.classList.remove('selected');
+    eEl.classList.add('wrong-match'); wEl.classList.add('wrong-match');
+    setTimeout(()=>{eEl.classList.remove('wrong-match');wEl.classList.remove('wrong-match');},500);
+  }
+}
+
+function updateMatchScore(){
+  matchScore=Math.max(0,(matchSolved/MATCH_ITEMS.length)*5-matchPenalties);
+  document.getElementById('match-score-display').textContent=`⭐ ${matchScore.toFixed(1)}/5`;
+}
+
+// ====== FINISH ======
+function finishMatch(){
+  playSound('win');
+  const total=Math.min(10,cwScore+matchScore);
+  const rounded=Math.round(total*10)/10;
+  document.getElementById('final-player-name').textContent=`🎓 ${player.name} | Group ${player.group}`;
+  document.getElementById('final-score-num').textContent=rounded.toFixed(1);
+  const stars=rounded>=9?5:rounded>=7?4:rounded>=5?3:rounded>=3?2:1;
+  document.getElementById('stars-row').textContent='⭐'.repeat(stars)+'☆'.repeat(5-stars);
+  const msgs=['Keep practicing! 💪','Good effort! 🙂','Good job! 👍','Great work! 🎉','EXCELLENT! 🏆'];
+  document.getElementById('result-message').textContent=msgs[stars-1];
+  document.getElementById('score-breakdown').innerHTML=`
+    <div>📖 Crossword: <strong>${cwScore.toFixed(1)} / 5</strong></div>
+    <div>🎯 Matching: <strong>${matchScore.toFixed(1)} / 5</strong></div>
+    <div>📊 Total: <strong>${rounded.toFixed(1)} / 10</strong></div>
+    <div style="margin-top:5px;font-size:11px;color:#999;">⚠️ Extra attempts deduct points</div>
+  `;
+  saveScore(player.name,player.group,rounded);
+  spawnConfetti();
+  showScreen('results');
+}
+
+// ====== FIREBASE SAVE ======
+function saveScore(name,group,score){
+  fbPush('/leaderboard/group'+group,{name,group,score,timestamp:Date.now()});
+}
+
+function showLeaderboard(){
+  playSound('click');showScreen('leaderboard');
+  loadLeaderboard('A');loadLeaderboard('B');
+  clearInterval(window._lbInterval);
+  window._lbInterval=setInterval(()=>{loadLeaderboard('A');loadLeaderboard('B');},10000);
+}
+
+async function loadLeaderboard(group){
+  const data=await fbGet('/leaderboard/group'+group);
+  renderLeaderboard(group,data);
+}
+
+function renderLeaderboard(group,data){
+  const cont=document.getElementById('lb-content-'+group);
+  if(!data){cont.innerHTML='<div style="text-align:center;color:#999;padding:20px;">No scores yet! 🎯</div>';return;}
+  const entries=Object.values(data).sort((a,b)=>b.score-a.score).slice(0,20);
+  const medals=['🥇','🥈','🥉'];
+  cont.innerHTML=entries.map((e,i)=>`
+    <div class="lb-entry ${e.name===player.name?'current-user':''}">
+      <div class="lb-rank" style="color:${i===0?'#FFD700':i===1?'#C0C0C0':i===2?'#CD7F32':'#9B59B6'}">${medals[i]||'#'+(i+1)}</div>
+      <div class="lb-name">${e.name}${e.name===player.name?' 👈 You':''}</div>
+      <div class="lb-score">${parseFloat(e.score).toFixed(1)}</div>
+    </div>
+  `).join('');
+  if(!entries.length) cont.innerHTML='<div style="text-align:center;color:#999;padding:20px;">No scores yet! 🎯</div>';
+}
+
+function switchLbTab(group){
+  document.getElementById('lb-content-A').style.display=group==='A'?'block':'none';
+  document.getElementById('lb-content-B').style.display=group==='B'?'block':'none';
+  document.getElementById('tab-a').classList.toggle('active',group==='A');
+  document.getElementById('tab-b').classList.toggle('active',group==='B');
+  playSound('click');
+}
+
+function playAgain(){
+  playSound('click');
+  cwScore=0;matchScore=0;cwPenalties=0;matchPenalties=0;cwSolved=0;matchSolved=0;
+  selectedClue=null;matchWordSel=null;matchEmojiSel=null;matchPairs={};matchAttempts={};
+  WORDS.forEach(w=>{wordStates[w.id]={solved:false,tries:0};});
+  for(let r=0;r<GRID_ROWS;r++) for(let c=0;c<GRID_COLS;c++){gridData[r][c].input=null;}
+  document.getElementById('player-name').value='';
+  document.getElementById('player-group').value='';
+  document.getElementById('btn-finish-cw').style.display='none';
+  document.getElementById('btn-finish-match').style.display='none';
+  document.getElementById('answer-area').style.display='none';
+  document.getElementById('virtual-kb').style.display='none';
+  clearInterval(window._lbInterval);
+  showScreen('login');
+}
+
+document.getElementById('answer-input').addEventListener('keydown',e=>{if(e.key==='Enter') submitAnswer();});
+</script>
+</body>
+</html>
